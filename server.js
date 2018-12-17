@@ -6,12 +6,36 @@ const Tx = require('ethereumjs-tx');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+app.use(function (req, res, next) {
+
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', "*");
+  
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept");
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+});
 //app.use(express.json());       // to support JSON-encoded bodies
 //app.use(express.urlencoded()); // to support URL-encoded bodies
 //app.use(express.multipart());
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-
+app.post('/test', function(request, response){
+  console.log(request.body); 
+  test = request.body.eth;
+  console.log(test);
+       // your JSON
+   response.send(request.body);    // echo the result back
+});
 const web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/13d25e4254f9499b9861f5d1a7556b7d"));
 var privatekey = '86da33bd59e43ce947824b34669f5c38ba7c0f961d5a5fbdad83b2d81d6a46e0';
 var diachiGoi = '0x04139Efd6Ce12Ef324e1f388ad6eb04C197BBbF7';  
@@ -22,15 +46,17 @@ gaslimit = web3.utils.numberToHex(web3.utils.toWei('100000', 'wei'));
 
 
 app.post('/', function(req, res) {
+//	var testhu = req.body;
+//	console.log(testhu);
     var diachiMua = req.body.eth;   
-console.log(diachiMua);
+//console.log(diachiMua);
 console.log("Goi ETH bat dau");
 
 
 web3.eth.getTransactionCount(diachiGoi).then(count => {
 
 //var testcount = web3.eth.getTransactionCount(diachiGoi,function(err,count){
-console.log(count);
+//console.log(count);
 //count=count+1;
 var txData = {
 nonce: count,
@@ -40,13 +66,13 @@ to: diachiMua,
 from: diachiGoi,
 value: value
 }
-console.log(txData);
+//console.log(txData);
 var transaction = new Tx(txData);
-console.log(transaction);
+//console.log(transaction);
 transaction.sign(key);
 //console.log(transaction);
 var serialisedTransaction = transaction.serialize().toString('hex');
-console.log(serialisedTransaction);
+//console.log(serialisedTransaction);
 web3.eth.sendSignedTransaction('0x' + serialisedTransaction,(err, hash1) => {
 
     if (err) { console.log(err); return; }
