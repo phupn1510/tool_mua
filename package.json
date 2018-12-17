@@ -1,0 +1,20 @@
+{
+  "name": "stresstestchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015": "^6.24.1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "merkle-patricia-tree": "^2.3.2",
+    "web3": "^1.0.0-beta.36"
+  }
+}
