@@ -1,2 +1,6 @@
-npm install
-node scriptgoi.js
+########
++ cai nodejs
++ npm install
+
+
++node server.js
